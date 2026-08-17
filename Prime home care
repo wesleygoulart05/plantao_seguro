@@ -1,0 +1,680 @@
+import 'package:flutter/material.dart';
+ import 'package:intl/intl.dart';
+ void main() {
+   runApp(const PrimeHomeCareApp());
+ }
+ // ==========================================================
+ // 🏠 IDENTIDADE VISUAL — PRIME HOME CARE
+ // ==========================================================
+ class AppCores {
+   static const Color primaria = Color(0xFF0B5345);     // Verde Escuro
+   static const Color secundaria = Color(0xFFF39C12);   // Dourado/Laranja
+   static const Color destaque = Color(0xFF117A65);      // Verde Médio
+   static const Color fundo = Color(0xFFF8F9FA);         // Fundo Claro
+   static const Color textoEscuro = Color(0xFF2C3E50);   // Texto
+ }
+ class AppEstilo {
+   static const String nomeEmpresa = "PRIME HOME CARE";
+   static const String slogan = "Excelência no Cuidado Domiciliar";
+ }
+ // FUNDO PERSONALIZADO — PRESENTE EM TODAS AS TELAS
+ Widget FundoPrimeHomeCare({required Widget child}) {
+   return Container(
+     decoration: BoxDecoration(
+       gradient: LinearGradient(
+         begin: Alignment.topLeft,
+         end: Alignment.bottomRight,
+         colors: [
+           AppCores.primaria.withOpacity(0.08),
+           AppCores.fundo,
+           AppCores.secundaria.withOpacity(0.05),
+         ],
+       ),
+     ),
+     child: child,
+   );
+ }
+ // RODAPÉ PERSONALIZADO — PRESENTE EM TODAS AS TELAS
+ Widget RodapePrimeHomeCare() {
+   return Container(
+     margin: const EdgeInsets.only(top: 20),
+     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+     decoration: const BoxDecoration(
+       color: AppCores.primaria,
+       borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+     ),
+     child: const Column(
+       children: [
+         Text(
+           AppEstilo.nomeEmpresa,
+           style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold, letterSpacing: 1.2),
+         ),
+         SizedBox(height: 2),
+         Text(
+           AppEstilo.slogan,
+           style: TextStyle(color: Colors.white70, fontSize: 11, fontStyle: FontStyle.italic),
+         ),
+       ],
+     ),
+   );
+ }
+ // ÍCONE PERSONALIZADO DO APP
+ Widget IconePrimeHomeCare({double tamanho = 60}) {
+   return Container(
+     width: tamanho,
+     height: tamanho,
+     decoration: BoxDecoration(
+       gradient: const LinearGradient(colors: [AppCores.primaria, AppCores.destaque]),
+       borderRadius: BorderRadius.circular(tamanho * 0.25),
+       boxShadow: [
+         BoxShadow(color: AppCores.primaria.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3)),
+       ],
+     ),
+     child: Stack(
+       alignment: Alignment.center,
+       children: [
+         Icon(Icons.home, color: Colors.white, size: tamanho * 0.55),
+         Positioned(
+           bottom: tamanho * 0.12,
+           right: tamanho * 0.12,
+           child: Container(
+             width: tamanho * 0.3,
+             height: tamanho * 0.3,
+             decoration: const BoxDecoration(color: AppCores.secundaria, shape: BoxShape.circle),
+           ),
+         ),
+       ],
+     ),
+   );
+ }
+ // ==========================================================
+ // 📱 APLICATIVO PRIME HOME CARE — INÍCIO
+ // ==========================================================
+ class PrimeHomeCareApp extends StatelessWidget {
+   const PrimeHomeCareApp({super.key});
+   @override
+   Widget build(BuildContext context) {
+     return MaterialApp(
+       title: 'Prime Home Care — Plantão Seguro',
+       theme: ThemeData(
+         primaryColor: AppCores.primaria,
+         colorScheme: ColorScheme(
+           primary: AppCores.primaria,
+           onPrimary: Colors.white,
+           secondary: AppCores.secundaria,
+           onSecondary: Colors.white,
+           surface: Colors.white,
+           onSurface: AppCores.textoEscuro,
+           error: Colors.red.shade700,
+           onError: Colors.white,
+           brightness: Brightness.light,
+         ),
+         appBarTheme: const AppBarTheme(
+           backgroundColor: AppCores.primaria,
+           foregroundColor: Colors.white,
+           elevation: 4,
+           centerTitle: true,
+         ),
+         cardTheme: CardTheme(
+           elevation: 3,
+           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+         ),
+         elevatedButtonTheme: ElevatedButtonThemeData(
+           style: ElevatedButton.styleFrom(
+             backgroundColor: AppCores.primaria,
+             foregroundColor: Colors.white,
+             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+             padding: const EdgeInsets.symmetric(vertical: 14),
+           ),
+         ),
+         useMaterial3: true,
+       ),
+       home: const TelaSplash(),
+       debugShowCheckedModeBanner: false,
+     );
+   }
+ }
+ // ==========================================================
+ // 🎬 TELA DE ABERTURA — COM LOGO DA PRIME HOME CARE
+ // ==========================================================
+ class TelaSplash extends StatefulWidget {
+   const TelaSplash({super.key});
+   @override
+   State<TelaSplash> createState() => _TelaSplashState();
+ }
+ class _TelaSplashState extends State<TelaSplash> {
+   @override
+   void initState() {
+     super.initState();
+     Future.delayed(const Duration(seconds: 2), () {
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const MenuPrincipal()));
+     });
+   }
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       body: FundoPrimeHomeCare(
+         child: Center(
+           child: Column(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               IconePrimeHomeCare(tamanho: 120),
+               const SizedBox(height: 24),
+               const Text(
+                 AppEstilo.nomeEmpresa,
+                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: AppCores.primaria, letterSpacing: 2),
+               ),
+               const SizedBox(height: 6),
+               const Text(
+                 AppEstilo.slogan,
+                 style: TextStyle(fontSize: 14, color: AppCores.destaque, fontStyle: FontStyle.italic),
+               ),
+               const SizedBox(height: 40),
+               const CircularProgressIndicator(color: AppCores.secundaria),
+             ],
+           ),
+         ),
+       ),
+     );
+   }
+ }
+ // ==========================================================
+ // 🧠 CONVERSOR DE TERMINOLOGIA TÉCNICA
+ // ==========================================================
+ class ConversorTerminologia {
+   static final Map<String, String> _dicionario = {
+     'pressão alta': 'elevação da pressão arterial',
+     'pressão baixa': 'hipotensão arterial',
+     'coração acelerado': 'taquicardia / frequência cardíaca aumentada',
+     'respiração difícil': 'dispneia / desconforto respiratório',
+     'febre': 'pirexia / temperatura corporal elevada',
+     'confuso': 'alteração do nível de consciência / quadro confusional',
+     'sonolento': 'hipersonia / redução do nível de consciência',
+     'dor no peito': 'dor precordial',
+     'dor na barriga': 'dor em região abdominal',
+     'dor de cabeça': 'cefaleia',
+     'fraco': 'astenia / redução da força muscular',
+     'não quer comer': 'recusa alimentar / hiporexia',
+     'diarréia': 'eliminações intestinais líquidas aumentadas',
+     'vômito': 'episódios eméticos',
+     'pouca urina': 'débito urinário reduzido / oligúria',
+     'dei o remédio': 'administrada medicação conforme prescrição',
+     'passei soro': 'instituída infusão de solução parenteral',
+     'limpei o paciente': 'realizados cuidados de higiene e conforto',
+     'troquei curativo': 'realizada troca de cobertura estéril',
+     'avisei o médico': 'notificado o profissional médico responsável',
+     'chamei o médico': 'solicitada avaliação médica imediata',
+     'fiquei olhando': 'instituída monitorização contínua',
+     'melhorou': 'quadro em evolução favorável',
+     'piorou': 'agravamento do quadro clínico',
+     'está bem': 'quadro clínico estável',
+     'soro passando': 'solução parenteral em infusão contínua',
+     'sonda funcionando': 'sonda permeável, sem intercorrências, débito preservado',
+     'dreno saindo': 'dreno funcional, com débito presente e aspecto preservado',
+   };
+   static String converter(String textoEntrada) {
+     if (textoEntrada.trim().isEmpty) return '';
+     String texto = textoEntrada.toLowerCase();
+     _dicionario.forEach((simples, tecnico) {
+       texto = texto.replaceAll(simples, tecnico);
+     });
+     texto = texto
+         .replaceAll('acho que ', '')
+         .replaceAll('parece que ', '')
+         .replaceAll('mais ou menos ', 'aproximadamente ')
+         .replaceAll('muito ', 'acentuada ')
+         .replaceAll('pouco ', 'levemente ');
+     if (texto.isNotEmpty) texto = texto[0].toUpperCase() + texto.substring(1);
+     if (!texto.endsWith('.')) texto += '.';
+     texto += ' Constata-se necessidade de manutenção da monitorização e registros.';
+     return texto;
+   }
+ }
+ // ==========================================================
+ // 📱 MENU PRINCIPAL
+ // ==========================================================
+ class MenuPrincipal extends StatelessWidget {
+   const MenuPrincipal({super.key});
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(
+         title: Row(
+           mainAxisSize: MainAxisSize.min,
+           children: [
+             IconePrimeHomeCare(tamanho: 36),
+             const SizedBox(width: 10),
+             const Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Text(AppEstilo.nomeEmpresa, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                 Text(AppEstilo.slogan, style: TextStyle(fontSize: 10, color: Colors.white70)),
+               ],
+             ),
+           ],
+         ),
+       ),
+       body: FundoPrimeHomeCare(
+         child: Column(
+           children: [
+             Expanded(
+               child: GridView.count(
+                 padding: const EdgeInsets.all(16),
+                 crossAxisCount: 2,
+                 crossAxisSpacing: 12,
+                 mainAxisSpacing: 12,
+                 children: [
+                   _buildBotaoMenu(context, '📋 Passagem de Plantão', AppCores.destaque, const PassagemPlantaoScreen()),
+                   _buildBotaoMenu(context, '🚨 Ação Imediata ABCDE', Colors.orange.shade700, const AcaoImediataScreen()),
+                   _buildBotaoMenu(context, '📅 Escala e Calendário', AppCores.primaria, const EscalaScreen()),
+                   _buildBotaoMenu(context, '🏠 Home Care', Colors.teal.shade700, const HomeCareScreen()),
+                   _buildBotaoMenu(context, '✅ Checklist Plantão', Colors.green.shade600, const ChecklistScreen()),
+                   _buildBotaoMenu(context, '📄 Relatórios', Colors.purple.shade700, const RelatoriosScreen()),
+                 ],
+               ),
+             ),
+             RodapePrimeHomeCare(),
+           ],
+         ),
+       ),
+     );
+   }
+   Widget _buildBotaoMenu(BuildContext context, String titulo, Color cor, Widget destino) {
+     return Card(
+       color: cor,
+       elevation: 5,
+       child: InkWell(
+         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => destino)),
+         borderRadius: BorderRadius.circular(12),
+         child: Center(
+           child: Padding(
+             padding: const EdgeInsets.all(16),
+             child: Text(titulo, style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+           ),
+         ),
+       ),
+     );
+   }
+ }
+ // ==========================================================
+ // 📋 TELA 1 — PASSAGEM DE PLANTÃO SBAR COM CONVERSOR
+ // ==========================================================
+ class PassagemPlantaoScreen extends StatefulWidget {
+   const PassagemPlantaoScreen({super.key});
+   @override
+   State<PassagemPlantaoScreen> createState() => _PassagemPlantaoScreenState();
+ }
+ class _PassagemPlantaoScreenState extends State<PassagemPlantaoScreen> {
+   final sCtrl = TextEditingController();
+   final bCtrl = TextEditingController();
+   final aCtrl = TextEditingController();
+   final rCtrl = TextEditingController();
+   String sConv = '', bConv = '', aConv = '', rConv = '';
+   void converterTudo() {
+     setState(() {
+       sConv = ConversorTerminologia.converter(sCtrl.text);
+       bConv = ConversorTerminologia.converter(bCtrl.text);
+       aConv = ConversorTerminologia.converter(aCtrl.text);
+       rConv = ConversorTerminologia.converter(rCtrl.text);
+     });
+   }
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(title: const Text('📋 Passagem de Plantão — Padrão SBAR')),
+       body: FundoPrimeHomeCare(
+         child: Column(
+           children: [
+             Expanded(
+               child: SingleChildScrollView(
+                 padding: const EdgeInsets.all(16),
+                 child: Column(
+                   children: [
+                     const Text('✍️ Escreva de forma simples → sistema converte para linguagem técnica', style: TextStyle(color: AppCores.destaque, fontSize: 13, fontStyle: FontStyle.italic)),
+                     const SizedBox(height: 16),
+                     _blocoSBAR('🔴 S — Situação', 'Nome, leito, idade, o que acontece agora.', sCtrl, sConv),
+                     _blocoSBAR('🔵 B — Histórico', 'Diagnóstico, internação, alergias, medicações.', bCtrl, bConv),
+                     _blocoSBAR('🟡 A — Avaliação', 'Sinais vitais, exame físico, acessos, equipamentos.', aCtrl, aConv),
+                     _blocoSBAR('🟢 R — Recomendação', 'Pendências, exames, cuidados a observar.', rCtrl, rConv),
+                     const SizedBox(height: 16),
+                     ElevatedButton.icon(
+                       onPressed: converterTudo,
+                       icon: const Icon(Icons.transform),
+                       label: const Text('🔄 REESCREVER EM LINGUAGEM TÉCNICA', style: TextStyle(fontSize: 16)),
+                       style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(16), backgroundColor: AppCores.secundaria, foregroundColor: Colors.white),
+                     ),
+                     const SizedBox(height: 8),
+                     OutlinedButton.icon(
+                       onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ Registrada no prontuário com sucesso! — PRIME HOME CARE'))),
+                       icon: const Icon(Icons.save, color: AppCores.primaria),
+                       label: const Text('📄 Salvar Passagem de Plantão', style: TextStyle(color: AppCores.primaria)),
+                     ),
+                   ],
+                 ),
+               ),
+             ),
+             RodapePrimeHomeCare(),
+           ],
+         ),
+       ),
+     );
+   }
+   Widget _blocoSBAR(String titulo, String dica, TextEditingController c, String resultado) {
+     return Card(
+       margin: const EdgeInsets.only(bottom: 12),
+       child: Padding(
+         padding: const EdgeInsets.all(12),
+         child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+             Text(titulo, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppCores.primaria)),
+             Text(dica, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+             TextField(controller: c, maxLines: 3, decoration: const InputDecoration(hintText: 'Escreva aqui...', border: OutlineInputBorder())),
+             if (resultado.isNotEmpty) ...[
+               const SizedBox(height: 8),
+               Container(width: double.infinity, padding: const EdgeInsets.all(10), color: AppCores.primaria.withOpacity(0.06),
+                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                   const Text('✅ Versão Técnica Padronizada:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppCores.primaria)),
+                   const SizedBox(height: 4),
+                   Text(resultado, style: const TextStyle(fontSize: 14)),
+                 ]),
+               ),
+             ],
+           ],
+         ),
+       ),
+     );
+   }
+ }
+ // ==========================================================
+ // 🚨 TELA 2 — AÇÃO IMEDIATA ABCDE
+ // ==========================================================
+ class AcaoImediataScreen extends StatelessWidget {
+   const AcaoImediataScreen({super.key});
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(title: const Text('🚨 Ação Imediata — Protocolo ABCDE'), backgroundColor: Colors.red.shade700),
+       body: FundoPrimeHomeCare(
+         child: Column(
+           children: [
+             Expanded(
+               child: ListView(padding: const EdgeInsets.all(16), children: [
+                 const Text('SEQUÊNCIA DE ATENDIMENTO EM EMERGÊNCIA — PRIME HOME CARE', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red.shade800)),
+                 const SizedBox(height: 16),
+                 _blocoABCDE('A — Via Aérea', 'Desobstruir. Manter permeável. Considerar proteção cervical.', Icons.air, Colors.red),
+                 _blocoABCDE('B — Respiração', 'Avaliar FR, esforço, ausculta. Administrar O₂ se necessário.', Icons.thermostat, Colors.orange),
+                 _blocoABCDE('C — Circulação', 'Verificar pulso, PA, perfusão. Controlar hemorragias. Massagem se PCR.', Icons.favorite, Colors.yellow.shade700),
+                 _blocoABCDE('D — Neurológico', 'Avaliar consciência (AVDN), pupilas, glicemia.', Icons.psychology, Colors.blue),
+                 _blocoABCDE('E — Exposição', 'Examinar corpo todo. Evitar hipotermia. Cobrir após avaliação.', Icons.visibility, Colors.green),
+                 const SizedBox(height: 20),
+                 Card(color: Colors.red.shade50, child: const Padding(
+                   padding: EdgeInsets.all(12),
+                   child: Column(children: [
+                     Text('⚡ SEQUÊNCIA OBRIGATÓRIA — PRIME HOME CARE', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                     SizedBox(height: 8),
+                     Text('1. Avaliar gravidade → Estável / Observação / Crítico\n'
+                          '2. Aplicar protocolo ABCDE imediatamente\n'
+                          '3. Notificar médico responsável COM DADOS OBJETIVOS\n'
+                          '4. Registrar horário, sinais, conduta e quem foi avisado\n'
+                          '5. Manter monitorização contínua até estabilização\n'
+                          '6. Nunca deixar paciente crítico sozinho!', style: TextStyle(height: 1.4)),
+                   ]),
+                 )),
+                 const SizedBox(height: 12),
+                 ElevatedButton.icon(
+                   onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ Ação registrada no prontuário — PRIME HOME CARE'))),
+                   icon: const Icon(Icons.edit_note),
+                   label: const Text('📝 Registrar Ação no Prontuário'),
+                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red.shade700, foregroundColor: Colors.white),
+                 ),
+               ]),
+             ),
+             RodapePrimeHomeCare(),
+           ],
+         ),
+       ),
+     );
+   }
+   Widget _blocoABCDE(String titulo, String desc, IconData icone, Color cor) {
+     return Card(margin: const EdgeInsets.only(bottom: 10), child: ListTile(
+       leading: CircleAvatar(backgroundColor: cor, child: Icon(icone, color: Colors.white)),
+       title: Text(titulo, style: const TextStyle(fontWeight: FontWeight.bold)),
+       subtitle: Text(desc, style: const TextStyle(height: 1.3)),
+     ));
+   }
+ }
+ // ==========================================================
+ // 📅 TELA 3 — ESCALA E CALENDÁRIO
+ // ==========================================================
+ class EscalaScreen extends StatefulWidget {
+   const EscalaScreen({super.key});
+   @override
+   State<EscalaScreen> createState() => _EscalaScreenState();
+ }
+ class _EscalaScreenState extends State<EscalaScreen> {
+   DateTime mes = DateTime.now();
+   final List<Map<String, dynamic>> plantoes = [
+     {'dia': 17, 'turno': '24h', 'tipo': 'Hospitalar', 'profissional': 'Enf. Ana'},
+     {'dia': 18, 'turno': '12h Noturno', 'tipo': 'Home Care', 'profissional': 'Téc. Carlos'},
+     {'dia': 19, 'turno': '24h', 'tipo': 'Hospitalar', 'profissional': 'Enf. Ana'},
+     {'dia': 20, 'turno': 'Livre', 'tipo': 'Descanso', 'profissional': '-'},
+   ];
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(title: const Text('📅 Escala e Calendário de Plantões')),
+       body: FundoPrimeHomeCare(
+         child: Column(children: [
+           Container(padding: const EdgeInsets.all(16), color: AppCores.primaria, child: Row(
+             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             children: [
+               IconButton(onPressed: () => setState(() => mes = DateTime(mes.year, mes.month-1)), icon: const Icon(Icons.chevron_left, color: Colors.white)),
+               Text(DateFormat('MMMM yyyy', 'pt_BR').format(mes), style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+               IconButton(onPressed: () => setState(() => mes = DateTime(mes.year, mes.month+1)), icon: const Icon(Icons.chevron_right, color: Colors.white)),
+             ],
+           )),
+           Expanded(child: ListView.builder(
+             padding: const EdgeInsets.all(12),
+             itemCount: plantoes.length,
+             itemBuilder: (_, i) {
+               final p = plantoes[i];
+               return Card(margin: const EdgeInsets.only(bottom: 8), color: p['tipo'] == 'Descanso' ? Colors.grey.shade100 : Colors.white, child: ListTile(
+                 leading: CircleAvatar(backgroundColor: AppCores.primaria, child: Text('${p['dia']}', style: const TextStyle(color: Colors.white))),
+                 title: Text('Dia ${p['dia']} — ${p['turno']}'),
+                 subtitle: Text('${p['tipo']} | ${p['profissional']}'),
+                 trailing: p['tipo'] != 'Descanso' ? const Icon(Icons.check_circle, color: AppCores.secundaria) : null,
+               ));
+             },
+           )),
+           Padding(padding: const EdgeInsets.all(12), child: Row(children: [
+             Expanded(child: ElevatedButton.icon(
+               onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ Solicitação de troca enviada — PRIME HOME CARE'))),
+               icon: const Icon(Icons.swap_horiz),
+               label: const Text('Solicitar Troca'),
+             )),
+             const SizedBox(width: 8),
+             Expanded(child: OutlinedButton.icon(
+               onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ Check-in realizado com sucesso!'))),
+               icon: const Icon(Icons.location_on, color: AppCores.secundaria),
+               label: const Text('Check-in', style: TextStyle(color: AppCores.primaria)),
+             )),
+           ])),
+           RodapePrimeHomeCare(),
+         ]),
+       ),
+     );
+   }
+ }
+ // ==========================================================
+ // 🏠 TELA 4 — HOME CARE (ATENDIMENTO DOMICILIAR)
+ // ==========================================================
+ class HomeCareScreen extends StatefulWidget {
+   const HomeCareScreen({super.key});
+   @override
+   State<HomeCareScreen> createState() => _HomeCareScreenState();
+ }
+ class _HomeCareScreenState extends State<HomeCareScreen> {
+   final _formKey = GlobalKey<FormState>();
+   String? nivel;
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(title: const Text('🏠 Home Care — Atendimento Domiciliar'), backgroundColor: AppCores.destaque),
+       body: FundoPrimeHomeCare(
+         child: SingleChildScrollView(padding: const EdgeInsets.all(16), child: Form(key: _formKey, child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+             Row(children: [IconePrimeHomeCare(tamanho: 40), const SizedBox(width: 10), const Text('Cadastro de Paciente Domiciliar', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppCores.primaria))]),
+             const SizedBox(height: 16),
+             TextFormField(decoration: const InputDecoration(labelText: 'Nome do Paciente', border: OutlineInputBorder(), prefixIcon: Icon(Icons.person, color: AppCores.primaria))),
+             const SizedBox(height: 8),
+             TextFormField(decoration: const InputDecoration(labelText: 'Endereço Completo', border: OutlineInputBorder(), hintText: 'Rua, número, bairro, cidade', prefixIcon: Icon(Icons.location_on, color: AppCores.primaria))),
+             const SizedBox(height: 8),
+             DropdownButtonFormField<String>(
+               decoration: const InputDecoration(labelText: 'Nível de Assistência', border: OutlineInputBorder(), prefixIcon: Icon(Icons.medical_services, color: AppCores.primaria)),
+               value: nivel,
+               items: const [
+                 DropdownMenuItem(value: 'AD1', child: Text('AD1 — Cuidados básicos')),
+                 DropdownMenuItem(value: 'AD2', child: Text('AD2 — Cuidados intermediários')),
+                 DropdownMenuItem(value: 'AD3', child: Text('AD3 — Alta complexidade')),
+               ],
+               onChanged: (v) => setState(() => nivel = v),
+             ),
+             const SizedBox(height: 8),
+             TextFormField(decoration: const InputDecoration(labelText: 'Nº Prescrição Médica', border: OutlineInputBorder(), prefixIcon: Icon(Icons.description, color: AppCores.primaria))),
+             const SizedBox(height: 8),
+             TextFormField(decoration: const InputDecoration(labelText: 'Médico Responsável / CRM', border: OutlineInputBorder())),
+             const SizedBox(height: 8),
+             TextFormField(decoration: const InputDecoration(labelText: 'Familiar Responsável e Contato', border: OutlineInputBorder()), keyboardType: TextInputType.phone),
+             const SizedBox(height: 16),
+             const Text('✅ Cuidados Obrigatórios — PRIME HOME CARE', style: TextStyle(fontWeight: FontWeight.bold, color: AppCores.primaria)),
+             const SizedBox(height: 8),
+             const CheckboxListTile(title: Text('Conferir validade da prescrição médica'), value: true, onChanged: null, controlAffinity: ListTileControlAffinity.leading),
+             const CheckboxListTile(title: Text('Avaliar condições do ambiente de atendimento'), value: true, onChanged: null, controlAffinity: ListTileControlAffinity.leading),
+             const CheckboxListTile(title: Text('Confirmar contato do responsável presente'), value: true, onChanged: null, controlAffinity: ListTileControlAffinity.leading),
+             const CheckboxListTile(title: Text('Geolocalização confirmada no endereço'), value: true, onChanged: null, controlAffinity: ListTileControlAffinity.leading),
+             const CheckboxListTile(title: Text('Verificar equipamentos e materiais disponíveis'), value: true, onChanged: null, controlAffinity: ListTileControlAffinity.leading),
+             const SizedBox(height: 16),
+             ElevatedButton.icon(
+               onPressed: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ Cadastro salvo com sucesso — PRIME HOME CARE'))),
+               icon: const Icon(Icons.save),
+               label: const Text('Salvar Cadastro do Paciente'),
+               style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
+             ),
+             const SizedBox(height: 20),
+             RodapePrimeHomeCare(),
+           ],
+         ))),
+       ),
+     );
+   }
+ }
+ // ==========================================================
+ // ✅ TELA 5 — CHECKLIST DE ENTRADA E SAÍDA
+ // ==========================================================
+ class ChecklistScreen extends StatefulWidget {
+   const ChecklistScreen({super.key});
+   @override
+   State<ChecklistScreen> createState() => _ChecklistScreenState();
+ }
+ class _ChecklistScreenState extends State<ChecklistScreen> {
+   final entrada = <bool>[false, false, false, false, false, false];
+   final saida = <bool>[false, false, false, false, false];
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(title: const Text('✅ Checklist — Entrada e Saída')),
+       body: FundoPrimeHomeCare(
+         child: Column(
+           children: [
+             Expanded(
+               child: ListView(padding: const EdgeInsets.all(16), children: [
+                 const Text('🔵 AO ENTRAR — Antes de assumir', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppCores.primaria)),
+                 const SizedBox(height: 8),
+                 _blocoCheck(entrada, 0, 'Recebi passagem de plantão verbal e escrita (SBAR)'),
+                 _blocoCheck(entrada, 1, 'Visitei leito por leito conferindo paciente e equipamentos'),
+                 _blocoCheck(entrada, 2, 'Conferi prontuário, prescrições e medicações'),
+                 _blocoCheck(entrada, 3, 'Verifiquei acessos, sondas, drenos e alarmes'),
+                 _blocoCheck(entrada, 4, 'Conferi materiais e medicações de emergência'),
+                 _blocoCheck(entrada, 5, 'Assumi responsabilidade e registrei entrada'),
+                 const SizedBox(height: 20),
+                 const Text('🔴 AO SAIR — Antes de ir embora', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red.shade700)),
+                 const SizedBox(height: 8),
+                 _blocoCheck(saida, 0, 'Organizei passagem de plantão completa (SBAR)'),
+                 _blocoCheck(saida, 1, 'Passei informações presencialmente ao profissional entrante'),
+                 _blocoCheck(saida, 2, 'Destacar pendências, medicações e exames'),
+                 _blocoCheck(saida, 3, 'Conferi equipamentos, alarmes e materiais'),
+                 _blocoCheck(saida, 4, 'Registrei saída e horário no sistema/prontuário'),
+                 const SizedBox(height: 20),
+                 ElevatedButton.icon(
+                   onPressed: () {
+                     if (entrada.every((e) => e) && saida.every((e) => e)) {
+                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('✅ Plantão encerrado! — PRIME HOME CARE')));
+                     } else {
+                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('⚠️ Há itens pendentes no checklist!')));
+                     }
+                   },
+                   icon: const Icon(Icons.checklist),
+                   label: const Text('✅ CONCLUIR PLANTÃO', style: TextStyle(fontSize: 16)),
+                   style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(16), backgroundColor: AppCores.secundaria, foregroundColor: Colors.white),
+                 ),
+               ]),
+             ),
+             RodapePrimeHomeCare(),
+           ],
+         ),
+       ),
+     );
+   }
+   Widget _blocoCheck(List<bool> lista, int idx, String texto) {
+     return CheckboxListTile(
+       title: Text(texto),
+       value: lista[idx],
+       onChanged: (v) => setState(() => lista[idx] = v ?? false),
+       controlAffinity: ListTileControlAffinity.leading,
+       activeColor: AppCores.primaria,
+     );
+   }
+ }
+ // ==========================================================
+ // 📄 TELA 6 — RELATÓRIOS
+ // ==========================================================
+ class RelatoriosScreen extends StatelessWidget {
+   const RelatoriosScreen({super.key});
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(title: const Text('📄 Relatórios — PRIME HOME CARE')),
+       body: FundoPrimeHomeCare(
+         child: Column(
+           children: [
+             Expanded(
+               child: ListView(padding: const EdgeInsets.all(16), children: [
+                 _botaoRelatorio(context, '📊 Relatório de Plantões e Horas', 'Escala, frequência, horas trabalhadas'),
+                 _botaoRelatorio(context, '📋 Evolução e Passagens de Plantão', 'Histórico SBAR por paciente'),
+                 _botaoRelatorio(context, '🏠 Relatório Home Care', 'Prescrições, cuidados, frequência'),
+                 _botaoRelatorio(context, '⚠️ Intercorrências e Emergências', 'Registro de eventos e condutas'),
+                 const SizedBox(height: 20),
+                 const Card(color: Color(0xFFE8F5E9), child: Padding(padding: EdgeInsets.all(16), child: Column(children: [
+                   Text('📤 Exportação — PRIME HOME CARE', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppCores.primaria)),
+                   SizedBox(height: 8),
+                   Text('Todos os relatórios são gerados com terminologia técnica padronizada e prontos para impressão ou envio.', textAlign: TextAlign.center),
+                 ]))),
+               ]),
+             ),
+             RodapePrimeHomeCare(),
+           ],
+         ),
+       ),
+     );
+   }
+   Widget _botaoRelatorio(BuildContext context, String titulo, String subtitulo) {
+     return Card(margin: const EdgeInsets.only(bottom: 8), child: ListTile(
+       title: Text(titulo, style: const TextStyle(fontWeight: FontWeight.bold, color: AppCores.primaria)),
+       subtitle: Text(subtitulo),
+       trailing: const Icon(Icons.picture_as_pdf, color: AppCores.secundaria),
+       onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('📄 Gerando: $titulo... — PRIME HOME CARE'))),
+     ));
+   }
+ }
