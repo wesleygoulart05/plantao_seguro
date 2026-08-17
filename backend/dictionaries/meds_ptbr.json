@@ -1,0 +1,6 @@
+[
+  { "name": "Enoxaparina", "dose": "40 mg", "route": "SC", "freq": "1x/dia" },
+  { "name": "Dipirona", "dose": "1 g", "route": "EV/VO", "freq": "PRN" },
+  { "name": "Paracetamol", "dose": "1 g", "route": "EV/VO", "freq": "q6h" },
+  { "name": "Furosemida", "dose": "40 mg", "route": "IV", "freq": "12/12h" }
+]
